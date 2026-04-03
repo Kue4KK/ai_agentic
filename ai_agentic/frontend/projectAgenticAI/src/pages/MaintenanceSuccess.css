@@ -1,0 +1,72 @@
+/* src/pages/MaintenanceSuccess.css */
+
+.success-wrapper {
+    width: 100%;
+    height: 100vh;
+    background-color: #334155; /* สีเทาเข้ม Slate */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.success-container {
+    position: relative; /* เพื่อให้ปุ่ม Finish อ้างอิงตำแหน่งได้ */
+    width: 600px;
+}
+
+.success-card {
+    background-color: #ffffff;
+    padding: 80px 40px;
+    text-align: center;
+    border-radius: 4px; /* ขอบเหลี่ยมตามสไตล์ที่คุณส่งมา */
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 2px solid #000;
+}
+
+.status-icon {
+    font-size: 50px;
+    color: #22c55e;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.success-card h1 {
+    font-size: 64px;
+    color: #000000;
+    font-weight: 800;
+    line-height: 1.1;
+    text-transform: uppercase;
+    letter-spacing: -2px;
+}
+
+/* ส่วนของปุ่ม Finish */
+.action-area {
+    position: absolute;
+    bottom: -35px; /* ให้ปุ่มลอยทับขอบการ์ดลงมา */
+    right: -20px;  /* ให้ปุ่มเยื้องไปทางขวา */
+}
+
+.btn-finish {
+    background-color: #10b981; /* สีเขียวสด */
+    color: white;
+    border: 3px solid #000;
+    padding: 15px 60px;
+    font-size: 28px;
+    font-weight: 900;
+    cursor: pointer;
+    box-shadow: 8px 8px 0px #000; /* เงาแข็งแบบสไตล์ Retro/Modern Dashboard */
+    transition: all 0.2s ease;
+    text-transform: uppercase;
+}
+
+.btn-finish:hover {
+    transform: translate(-3px, -3px);
+    box-shadow: 11px 11px 0px #000;
+    background-color: #059669;
+}
+
+.btn-finish:active {
+    transform: translate(2px, 2px);
+    box-shadow: 4px 4px 0px #000;
+}

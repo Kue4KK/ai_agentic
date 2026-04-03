@@ -1,0 +1,24 @@
+/* ล็อคโครงสร้างหน้าเว็บ */
+.app-container {
+    display: flex;
+    height: 100vh; /* ให้ความสูงเท่ากับหน้าจอพอดี */
+    overflow: hidden; /* ห้ามเลื่อนในระดับ Body */
+}
+
+/* Sidebar ล็อคอยู่กับที่ */
+.sidebar {
+    width: 280px;
+    height: 100vh;
+    flex-shrink: 0; /* ห้าม Sidebar โดนบีบ */
+    background-color: #0f172a;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* ส่วนเนื้อหาขวาที่เลื่อนได้ */
+.main-content {
+    flex-grow: 1;
+    height: 100vh;
+    overflow-y: auto; /* ให้เลื่อนลงได้เฉพาะส่วนนี้ */
+    background-color: #0f172a; /* หรือสีพื้นหลังที่ต้องการ */
+    padding: 40px;
+}

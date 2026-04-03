@@ -1,0 +1,123 @@
+/* พื้นหลังของหน้า Tasks */
+.tasks-wrapper {
+    background-color: #0b1120; /* สีน้ำเงินเข้มพรีเมียม */
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.tasks-main-content {
+    width: 100%;
+    max-width: 850px; /* จำกัดความกว้างให้ดูสวยงาม */
+}
+
+.content-header {
+    text-align: center;
+    margin-bottom: 40px;
+    color: #fff;
+}
+
+/* 🧱 รายการงาน (จัดกลาง + เพิ่ม Gap) */
+.tasks-container {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* ระยะห่างระหว่างงานแต่ละชุด */
+}
+
+.task-group {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* ตัวการ์ดขอบหนา */
+.modern-task-card {
+    background-color: #1e293b;
+    border: 3px solid #000; /* ขอบดำหนา */
+    border-radius: 12px;
+    padding: 25px;
+    position: relative;
+    box-shadow: 8px 8px 0px #000; /* เงาแข็งแบบดั้งเดิม */
+    color: #fff;
+}
+
+.task-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.task-header h3 {
+    font-size: 1.6rem;
+    margin: 0;
+}
+
+/* แถบสีด้านซ้ายของการ์ดตามระดับ Priority */
+.priority-high { border-left: 10px solid #ef4444; }
+.priority-medium { border-left: 10px solid #f97316; }
+.priority-low { border-left: 10px solid #22c55e; }
+
+.priority-pill {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    border: 1px solid #000;
+}
+
+.task-details {
+    display: flex;
+    gap: 20px;
+}
+
+.img-box {
+    width: 140px;
+    height: 100px;
+    background-color: #0f172a;
+    border: 2px solid #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #475569;
+    font-weight: bold;
+    flex-shrink: 0;
+}
+
+.reason-text label {
+    display: block;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin-bottom: 8px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.reason-text p {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* ปุ่ม Accept Task */
+.accept-task-btn {
+    background-color: #3b82f6; /* สีฟ้าสดใส */
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    border: 2px solid #000;
+    border-radius: 6px;
+    text-decoration: none;
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.2s;
+    max-width: 200px;
+}
+
+.accept-task-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+    background-color: #2563eb;
+}

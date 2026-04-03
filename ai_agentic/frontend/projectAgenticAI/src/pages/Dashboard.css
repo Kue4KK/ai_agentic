@@ -1,0 +1,162 @@
+/* 1. พื้นหลังหน้า Dashboard แบบ Deep Dark */
+.dashboard-wrapper {
+    background-color: #0b1120; /* สีน้ำเงินเข้มลึก ดูพรีเมียม */
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* จัดเนื้อหาทั้งหมดไว้ตรงกลาง */
+}
+
+/* ส่วนหัวของหน้า */
+.content-header {
+    text-align: center;
+    margin-bottom: 50px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.content-header h1 {
+    color: #ffffff;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.content-header p {
+    color: #94a3b8;
+    font-size: 1.1rem;
+}
+
+/* 2. จัดการ Layout ของการ์ด และเพิ่ม Gap */
+.machine-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 50px; /* เพิ่มระยะห่างระหว่างการ์ด */
+    width: 100%;
+    max-width: 800px; /* จำกัดความกว้างเพื่อให้การ์ดดูไม่แบนเกินไป */
+}
+
+/* 3. สไตล์การ์ด: ขอบหนา + จัดกลาง + เงาแข็ง */
+.machine-card {
+    background-color: #1e293b; /* สี Slate Dark */
+    border: 3px solid #000000; /* ขอบดำหนาตามต้นฉบับ */
+    border-radius: 12px;
+    padding: 30px;
+    display: flex;
+    gap: 30px;
+    color: #ffffff;
+    
+    /* เงาแบบแข็ง (Hard Shadow) */
+    box-shadow: 10px 10px 0px #000000;
+    transition: all 0.3s ease;
+}
+
+/* เอฟเฟกต์ตอน Hover */
+.machine-card:hover {
+    transform: translate(-4px, -4px);
+    box-shadow: 15px 15px 0px #000000;
+    background-color: #243147;
+}
+
+/* กล่องรูปภาพ No Image */
+.machine-img-placeholder {
+    width: 160px;
+    height: 120px;
+    background-color: #f8fafc; /* พื้นหลังสว่างตัดกับตัวการ์ด */
+    border: 2px solid #000000;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #0f172a;
+    font-weight: 900;
+    border-radius: 4px;
+}
+
+/* รายละเอียดข้อมูล */
+.machine-details {
+    flex-grow: 1;
+}
+
+.machine-details h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.8rem;
+    color: #fff;
+    font-weight: 800;
+}
+
+/* สถานะและจุด Dot */
+.status-badge {
+    margin-bottom: 15px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+.status-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid #000;
+}
+
+.status-dot.operating {
+    background-color: #10b981; /* เขียวสด */
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+}
+
+.status-dot.standby {
+    background-color: #f59e0b; /* ส้มทอง */
+}
+
+/* กลุ่มตัวเลขสถิติ */
+.stat-group p {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    color: #cbd5e1;
+    font-weight: 600;
+}
+
+.stat-group strong {
+    color: #3b82f6; /* สีฟ้าเน้นตัวเลข */
+    font-size: 1.2rem;
+}
+
+/* แถวประวัติและปุ่ม View */
+.history-row {
+    margin-top: 25px;
+    padding-top: 20px;
+    border-top: 2px solid #000000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.history-row span {
+    font-weight: bold;
+    color: #94a3b8;
+}
+
+/* ปุ่ม View แบบขอบหนา */
+.view-btn {
+    background-color: #3b82f6;
+    color: white;
+    text-decoration: none;
+    padding: 8px 25px;
+    border-radius: 6px;
+    border: 2px solid #000;
+    font-weight: 900;
+    text-transform: lowercase; /* ตามแบบ 'view' เดิมของคุณ */
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.2s;
+}
+
+.view-btn:hover {
+    background-color: #2563eb;
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0px #000;
+}
