@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Maintenance</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100">
+
+<div class="max-w-4xl mx-auto p-6">
+
+    <h1 class="text-3xl font-bold mb-6 text-center">
+        🔧 AI Maintenance System
+    </h1>
+
+    <!-- FORM -->
+    <div class="bg-white p-6 rounded-2xl shadow">
+        <div class="grid grid-cols-2 gap-4">
+
+            <input id="air" class="input" placeholder="Air Temp">
+            <input id="process" class="input" placeholder="Process Temp">
+            <input id="speed" class="input" placeholder="Speed">
+            <input id="torque" class="input" placeholder="Torque">
+            <input id="wear" class="input col-span-2" placeholder="Tool Wear">
+
+        </div>
+
+        <button id="btnAnalyze" onclick="send()" 
+        class="mt-4 w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">
+            Analyze
+        </button>
+    </div>
+
+    <div id="loading" class="hidden text-center mt-4">
+        <div class="flex flex-col items-center gap-2">
+
+            <!-- Spinner -->
+            <div class="w-10 h-10 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+
+            <p class="text-gray-600">🤖 AI กำลังวิเคราะห์...</p>
+        </div>
+    </div>
+
+    <!-- RESULT -->
+    <div id="result" class="mt-6 hidden">
+
+        <div class="grid grid-cols-2 gap-4">
+
+            <!-- AI1 -->
+            <div class="bg-white p-4 rounded-2xl shadow">
+                <h2 class="font-bold text-lg">🤖 AI วิเคราะห์</h2>
+                <p id="ai1"></p>
+            </div>
+
+            <!-- AI2 -->
+            <div class="bg-white p-4 rounded-2xl shadow">
+                <h2 class="font-bold text-lg">🧠 AI ตรวจสอบ</h2>
+                <p id="ai2"></p>
+            </div>
+
+        </div>
+
+        <!-- Decision -->
+        <div class="bg-white p-4 rounded-2xl shadow mt-4 text-center">
+            <h2 class="font-bold text-lg">📊 Decision</h2>
+            <p id="decision" class="text-2xl"></p>
+        </div>
+
+        <!-- PDF -->
+        <div class="text-center mt-4">
+            <a id="pdfLink" class="hidden bg-green-600 text-white px-4 py-2 rounded-xl">
+                📄 Download Report
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+.input {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+}
+</style>
+
+<script>
+async function send() {
+
+    const btn = document.getElementById("btnAnalyze");
+    const loading = document.getElementById("loading");
+
+    // 🔒 disable ปุ่ม + show loading
+    btn.disabled = true;
+    btn.classList.add("opacity-50");
+    loading.classList.remove("hidden");
+
+    const data = {
+        air_temperature: parseFloat(document.getElementById("air").value),
+        process_temperature: parseFloat(document.getElementById("process").value),
+        rotational_speed: parseInt(document.getElementById("speed").value),
+        torque: parseFloat(document.getElementById("torque").value),
+        tool_wear: parseInt(document.getElementById("wear").value)
+    }
+
+    try {
+
+        const res = await fetch("http://127.0.0.1:8000/analyze", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(data)
+        });
+
+        const json = await res.json();
+
+        document.getElementById("result").classList.remove("hidden");
+
+        // AI1
+        document.getElementById("ai1").innerText =
+            "Repair: " + json.ai1.should_repair +
+            "\nReason: " + json.ai1.reason;
+
+        // AI2 (🔥 FIX field ให้ตรง backend)
+        document.getElementById("ai2").innerText =
+            "Agree: " + json.ai2.agree +
+            "\nConfidence: " + json.ai2.confidence +
+            "\nReason: " + json.ai2.reason;
+
+        // Decision
+        document.getElementById("decision").innerText =
+            json.decision ? "⚠️ NEED REPAIR" : "✅ NORMAL";
+
+        // PDF
+        if (json.pdf) {
+            const link = document.getElementById("pdfLink");
+            link.href = "http://127.0.0.1:8000/reports/" + json.pdf;
+            link.classList.remove("hidden");
+        }
+
+    } catch (err) {
+        alert("❌ Error: " + err);
+    }
+
+    // 🔓 เปิดปุ่ม + ซ่อน loading
+    btn.disabled = false;
+    btn.classList.remove("opacity-50");
+    loading.classList.add("hidden");
+}
+</script>
+
+</body>
+</html>
