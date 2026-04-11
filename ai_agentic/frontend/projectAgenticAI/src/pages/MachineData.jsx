@@ -1,67 +1,87 @@
 import './MachineData.css';
+import { useEffect, useState } from 'react';
 
 function MachineData() {
+  const [machines, setMachines] = useState([]);
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/dashboard")
+      .then(res => res.json())
+      .then(res => setMachines(res));
+  }, []);
+
   return (
     <div className="machine-data-layout">
-      {/* ❌ เอา <Sibar /> ออกจากตรงนี้ เพราะถูกเรียกใช้ที่ App.jsx แล้ว */}
-
       <main className="machine-data-content">
-        {/* แถบเลือกเครื่องจักรด้านบน */}
-        <div className="top-selection-bar">
-          <select className="machine-dropdown">
-            <option value="machine1">Machine 1</option>
-            <option value="machine2">Machine 2</option>
-            <option value="machine3">Machine 3</option>
-          </select>
-        </div>
+        
+        {/* --- Header ตามสไตล์ต้นฉบับ --- */}
+        <header className="data-header-section">
+          <h1>Machine Analytics</h1>
+          <p>Real-time sensor data and latest maintenance records</p>
+        </header>
 
-        {/* พื้นที่แสดงข้อมูล ซ้าย-ขวา */}
-        <div className="data-grid">
-          
-          {/* คอลัมน์ซ้าย: รูปภาพและสถานะ */}
-          <div className="left-column">
-            <div className="machine-image-box">
-              {/* ใส่รูปภาพเครื่องจักรที่นี่ */}
-              <span>No Image</span>
-            </div>
+        {machines.map((item) => (
+          <div key={item.id} className="data-grid">
             
-            <div className="machine-status">
-              <h2>Machine 1</h2>
-              <p>Status: Operating</p>
-              <p>Temperature: 57 °C</p>
-              <p>Machine Age: 2 Years</p>
-            </div>
-          </div>
-
-          {/* คอลัมน์ขวา: ประวัติการซ่อม */}
-          <div className="right-column">
-            <h2 className="history-title">Maintenance History</h2>
-            
-            <div className="history-card">
-              <div className="history-header">
-                <span>Date: 01/02/2022</span>
-                <span className="reported-by">
-                  Reported By <input type="text" value="นาย พัสกร สิทธิเดช" readOnly className="reporter-input" />
-                </span>
+            {/* --- ⬅️ คอลัมน์ซ้าย: รูปภาพและสถานะปัจจุบัน --- */}
+            <div className="left-column">
+              <div className="machine-image-box">
+                {/* ถ้ามีรูปใช้ <img src={item.image} /> ถ้าไม่มีจะเป็นเส้นประตาม CSS */}
+                <h2>{item.name}</h2>
               </div>
-              
-              <div className="history-details">
-                {/* กล่องซ้าย: สาเหตุที่เสีย (ขอบแดง) */}
-                <div className="detail-box reason-box">
-                  <label>Maintenance Reason</label>
-                  <p>Hydraulic Leak</p>
+
+              <div className="machine-status-card">
+                <div className="status-item">
+                  <span>Air Temp:</span> 
+                  <strong>{item.air_temperature || "0"} K</strong>
+                </div>
+                <div className="status-item">
+                  <span>Process Temp:</span> 
+                  <strong>{item.process_temperature || "0"} K</strong>
+                </div>
+                <div className="status-item">
+                  <span>Speed:</span> 
+                  <strong>{item.rotational_speed || "0"} RPM</strong>
+                </div>
+                <div className="status-item">
+                  <span>Torque:</span> 
+                  <strong>{item.torque || "0"} Nm</strong>
+                </div>
+                <div className="status-item">
+                  <span>Tool Wear:</span> 
+                  <strong>{item.tool_wear || "0"} min</strong>
+                </div>
+              </div>
+            </div>
+
+            {/* --- ➡️ คอลัมน์ขวา: ประวัติการซ่อมล่าสุด --- */}
+            <div className="right-column">
+              <div className="history-card">
+                <div className="history-header">
+                  <span className="date-text">Last Maintenance: {item.date}</span>
+                  <span className="reported-by">
+                    Auditor: <strong>{item.engineer_name}</strong>
+                  </span>
                 </div>
                 
-                {/* กล่องขวา: รายละเอียดการซ่อม (ขอบเขียว) */}
-                <div className="detail-box repair-box">
-                  <label>Repair Details</label>
-                  <p>Replaced O-rings and refilled fluid.</p>
+                <div className="history-details-grid">
+                  {/* กล่องซ้าย: สาเหตุที่เสีย (เน้นขอบแดง) */}
+                  <div className="info-box reason-accent">
+                    <h4>Maintenance Reason</h4>
+                    <p>{item.issue}</p>
+                  </div>
+                  
+                  {/* กล่องขวา: รายละเอียดการซ่อม (เน้นขอบเขียว) */}
+                  <div className="info-box repair-accent">
+                    <h4>Repair Details</h4>
+                    <p>{item.repair}</p>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-        </div>
+          </div>
+        ))}
       </main>
     </div>
   );

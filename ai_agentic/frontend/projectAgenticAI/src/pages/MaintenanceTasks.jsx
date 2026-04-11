@@ -1,67 +1,66 @@
 import { Link } from "react-router-dom";
 import "./MaintenanceTasks.css";
+import { useState } from "react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 function MaintenanceTasks() {
-  const tasks = [
-    {
-      id: 1,
-      name: "Machine 1",
-      priority: "High",
-      reason: "Critical Engine Failure - Overheating detected in main cylinder block.",
-      colorClass: "priority-high",
-    },
-    {
-      id: 2,
-      name: "Machine 2",
-      priority: "Medium",
-      reason: "Scheduled Filter Change - System performance dropping slightly.",
-      colorClass: "priority-medium",
-    },
-    {
-      id: 3,
-      name: "Machine 3",
-      priority: "Low",
-      reason: "General Inspection - Quarterly maintenance and sensor calibration.",
-      colorClass: "priority-low",
-    },
-  ];
+  const [tasks, setTasks] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetch("http://localhost:8000/api/tasks")
+      .then(res => res.json())
+      .then(data => {
+        console.log("tasks:", data);
+        setTasks(data);
+      });
+  }, []);
 
   return (
     <div className="tasks-wrapper">
       {/* ❌ เอา <Sibar /> ออก เพราะมีอยู่ที่ App.jsx แล้ว */}
 
       <main className="tasks-main-content">
-        <div className="content-header">
-          <h1>Active Maintenance Tasks</h1>
-          <p>Manage and accept repair assignments based on priority levels.</p>
-        </div>
+        <header className="history-header-section">
+          <h1>Maintanance Tasks</h1>
+          <p>Showing past repair records for selected systems</p>
+        </header>
 
         <div className="tasks-container">
-          {tasks.map((task) => (
-            <div key={task.id} className="task-group">
-              <div className={`modern-task-card ${task.colorClass}`}>
+          {tasks.length === 0 ? (
+            <p>No active maintenance tasks at the moment.</p>
+          ) : (
+          
+          tasks.map(task => (
+            <div key={task.machine_id} className="task-group">
+              <div className={`modern-task-card ${task.risk_level === 'high' ? 'high-risk'  : 'low-risk'}`}>
                 <div className="task-header">
-                  <h3>{task.name}</h3>
-                  <span className="priority-pill">{task.priority}</span>
+                  <h3>{task.machine_name}</h3>
+                  <span className="priority-pill">{task.risk_level}</span>
                 </div>
                 
                 <div className="task-details">
                   <div className="img-box">No Image</div>
                   <div className="reason-text">
                     <label>MAINTENANCE REASON</label>
-                    <p>{task.reason}</p>
+                    <p><strong>🤖 AI1:</strong> {task.ai1_reason}</p>
+                    <p><strong>🤖 AI2:</strong> {task.ai2_reason}</p>
                   </div>
+                  <p><strong>🧠 Source:</strong> {task.decision_source}</p>
+
+                  <p style={{ fontSize: "12px", color: "gray" }}>
+                    🕒 {task.created_at}
+                  </p>
                 </div>
+                <button className="accept-task-btn" onClick={() => navigate(`/maintenance-tasks-form/${task.machine_id}`)}>
+                      Accept
+                </button>
               </div>
 
               {/* ปุ่ม Accept Task ปรับให้เด่นชัดขึ้น */}
-              <Link
-                to="/maintenance-tasks-form"
-                className="accept-task-btn"
-              >
-                Accept Task
-              </Link>
             </div>
+          )
           ))}
         </div>
       </main>

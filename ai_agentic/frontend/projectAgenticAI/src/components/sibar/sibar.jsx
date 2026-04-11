@@ -27,10 +27,17 @@ function Sibar() {
 
       <nav className="menu">
         <Link 
+          to="/machine-data" 
+          className={`menu-item ${isActive('/machine-data') ? 'active' : ''}`}
+        >
+          Dashboard
+        </Link>
+
+        <Link 
           to="/dashboard" 
           className={`menu-item ${isActive('/dashboard') ? 'active' : ''}`}
         >
-          Dashboard
+          AI Analysis
         </Link>
         
         <Link 
@@ -47,11 +54,12 @@ function Sibar() {
           Maintenance History
         </Link>
 
+
         <Link 
-          to="/machine-data" 
-          className={`menu-item ${isActive('/machine-data') ? 'active' : ''}`}
+          to="/analyze" 
+          className={`menu-item ${isActive('/analyze') ? 'active' : ''}`}
         >
-          Machine Data
+          AI Analysis
         </Link>
       </nav>
     </aside>

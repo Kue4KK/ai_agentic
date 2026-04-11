@@ -4,7 +4,9 @@ import History from './pages/MaintenanceHistory';
 import Tasks from './pages/MaintenanceTasks';
 import MaintenanceTasksForm from './pages/MaintenanceTasksForm';
 import Machine from './pages/MachineData';
+import AnalyzeMachine from '../pages/AnalyzeMachine';
 import Sibar from './components/sibar/sibar'; // 1. อย่าลืม Import Sidebar
+import Analyze from "../pages/Analyze";
 
 function AppRoutes() {
   return (
@@ -22,10 +24,12 @@ function AppRoutes() {
             
             {/* 4. แก้ชื่อ Path ให้ตรงกับที่ปุ่มกดเรียก (ต้องมี s และขีดกลาง) */}
             <Route path="/maintenance-tasks" element={<Tasks />} />
-            <Route path="/maintenance-tasks-form" element={<MaintenanceTasksForm />} />
+            <Route path="/maintenance-tasks-form/:id" element={<MaintenanceTasksForm />} />
             
             <Route path="/maintenance-history" element={<History />} />
             <Route path="/machine-data" element={<Machine />} /> 
+            <Route path="/analyze" element={<Analyze />} />
+            <Route path="/analyze-machine/:id" element={<AnalyzeMachine />} />
           </Routes>
         </main>
       </div>

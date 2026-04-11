@@ -159,6 +159,31 @@
 }
 .repair-border h4 { color: #22c55e; }
 
+.filter-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 8px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+
+.btn-clear {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-clear:hover {
+  background: #d9363e;
+}
 /* Animation */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(15px); }

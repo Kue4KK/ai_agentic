@@ -4,6 +4,8 @@ import MaintenanceHistory from './pages/MaintenanceHistory';
 import MaintenanceTasks from './pages/MaintenanceTasks';
 import MaintenanceTasksForm from './pages/MaintenanceTasksForm';
 import MachineData from './pages/MachineData';
+import Analyze from './pages/Analyze';
+import AnalyzeMachine from './pages/Analyze_machine';
 import MaintenanceSuccess from './pages/MaintenanceSuccess';
 import Login from './pages/Login'; // 1. Import หน้า Login มาด้วย
 import Sibar from './components/sibar/sibar'; 
@@ -29,9 +31,13 @@ function AppContent() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/maintenance-history" element={<MaintenanceHistory />} />
           <Route path="/maintenance-tasks" element={<MaintenanceTasks />} />
-          <Route path="/maintenance-tasks-form" element={<MaintenanceTasksForm />} />
+          <Route path="/maintenance-tasks-form/:id" element={<MaintenanceTasksForm />} />
           <Route path="/machine-data" element={<MachineData />} />
           <Route path="/maintenance-success" element={<MaintenanceSuccess />} />
+          <Route path="/analyze" element={<Analyze />} />
+          <Route path="/analyze-machine/:id" element={<AnalyzeMachine />} />
+
+          {/* ถ้าพิมพ์ path มั่ว ให้ดีดกลับไปหน้า Login */}
 
           {/* ถ้าพิมพ์ path มั่ว ให้ดีดกลับไปหน้า Login */}
           <Route path="*" element={<Navigate to="/" />} />

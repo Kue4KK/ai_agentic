@@ -1,130 +1,136 @@
-/* src/pages/MachineData.css */
+/* MachineData.css */
 
-/* --- Layout หลัก --- */
 .machine-data-layout {
     display: flex;
-    background-color: #0f172a; /* พื้นหลังสีเข้มลึก (Deep Navy) */
-    color: #e2e8f0; /* ตัวหนังสือสีเทาอ่อน */
+    background-color: #0f172a; /* พื้นหลังน้ำเงินเข้ม Deep Navy */
+    color: #e2e8f0;
     min-height: 100vh;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center; /* จัดให้อยู่กลางจอ */
 }
 
 .machine-data-content {
-    flex-grow: 1;
-    padding: 50px 60px; /* เพิ่ม Padding ให้ดูไม่อึดอัด */
+    width: 100%;
+    max-width: 1100px; /* ขนาดมาตรฐานเดียวกับ Dashboard/History */
+    padding: 60px 40px;
     display: flex;
     flex-direction: column;
     gap: 40px;
-    overflow-y: auto;
+    animation: fadeIn 0.5s ease-in-out;
 }
 
-/* --- แถบ Dropdown ด้านบน --- */
+/* --- ส่วนหัวและการเลือกเครื่องจักร --- */
+.data-header-section {
+    margin-bottom: 20px;
+    border-left: 5px solid #3b82f6; /* แถบสีฟ้าข้างหัวข้อสไตล์ต้นแบบ */
+    padding-left: 20px;
+}
+
+.data-header-section h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #ffffff;
+    font-weight: 800;
+}
+
 .top-selection-bar {
     width: 100%;
-    max-width: 800px; /* จำกัดความกว้างไม่ให้เต็มหน้าจอเกินไป */
-    margin: 0 auto;
+    margin-top: 20px;
 }
 
 .machine-dropdown {
     width: 100%;
-    padding: 14px 20px;
-    font-size: 16px;
+    max-width: 400px; /* ไม่ให้ยาวเกินไป */
+    padding: 12px 20px;
+    font-size: 1rem;
     color: #fff;
-    background-color: #1e293b; /* สีเดียวกับ Card */
+    background-color: #1e293b;
     border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     outline: none;
-    appearance: none; /* เอาลูกศร Default ออก */
-    -webkit-appearance: none;
-    -moz-appearance: none;
+    appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 15px center;
     background-size: 18px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
 }
 
-.machine-dropdown:hover, .machine-dropdown:focus {
-    border-color: #3b82f6; /* ขอบสีฟ้าตอน Hover/Focus */
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+.machine-dropdown:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
 }
 
-/* --- Layout ซ้าย-ขวา --- */
+/* --- Layout Grid ซ้าย (ข้อมูลเครื่อง) - ขวา (ประวัติล่าสุด) --- */
 .data-grid {
     display: grid;
-    grid-template-columns: 1fr 2fr; /* ปรับสัดส่วนซ้าย-ขวา */
-    gap: 50px;
+    grid-template-columns: 350px 1fr; /* คอลัมน์ซ้ายคงที่ ขวายืดหยุ่น */
+    gap: 40px;
     align-items: flex-start;
 }
 
-/* --- ⬅️ คอลัมน์ซ้าย (รูปภาพและสถานะ) --- */
+/* --- ⬅️ คอลัมน์ซ้าย (Profile & Status) --- */
 .left-column {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 25px;
 }
 
 .machine-image-box {
     width: 100%;
-    height: 300px;
-    background-color: #1e293b;
-    border: 2px solid rgba(255, 255, 255, 0.05); /* ขอบบางๆ */
+    height: 50px;
+    background: #3b82f6;
     border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); /* เงาเข้ม */
-    overflow: hidden; /* กันรูปภาพหลุดขอบ */
+    border: 2px  #334155; /* ใช้เส้นประเหมือน Placeholder หน้าอื่น */
     display: flex;
     align-items: center;
     justify-content: center;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
 }
 
-/* ถ้าจะใส่รูปจริงให้ใช้สไตล์นี้:
-.machine-image-box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-*/
 
-.machine-status h2 {
-    font-size: 28px;
+
+.machine-status-card {
+    background: #1e293b;
+    padding: 25px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.machine-status-card h2 {
+    font-size: 1.5rem;
     color: #fff;
-    margin: 0 0 20px 0;
-    font-weight: 600;
+    margin-bottom: 15px;
 }
 
-.machine-status p {
-    font-size: 18px;
-    color: #94a3b8; /* สีเทาเข้มขึ้น */
-    margin: 10px 0;
-    font-weight: 400;
+.status-item {
+    font-size: 1rem;
+    color: #94a3b8;
+    margin: 12px 0;
     display: flex;
-    align-items: center;
-    gap: 10px;
+    justify-content: space-between;
 }
 
-/* --- ➡️ คอลัมน์ขวา (ประวัติการซ่อม) --- */
+.status-item strong {
+    color: #3b82f6; /* เน้นค่าตัวเลขด้วยสีฟ้า */
+}
+
+/* --- ➡️ คอลัมน์ขวา (Latest Maintenance Card) --- */
 .right-column {
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-.history-title {
-    font-size: 24px;
-    color: #fff;
-    margin: 0;
-    font-weight: 600;
-}
-
 .history-card {
-    background-color: #1e293b; /* สี Slate เข้ม */
-    color: #e2e8f0;
-    padding: 30px;
-    border: 1px solid rgba(255, 255, 255, 0.05);
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    background: #1e293b;
+    padding: 35px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 .history-header {
@@ -132,61 +138,46 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
-    font-size: 14px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.history-header span:first-child {
-    color: #fff;
+.date-text {
+    color: #34d399; /* สีเขียวสว่างสำหรับวันที่เหมือนต้นแบบ */
+    font-weight: 700;
 }
 
-.reported-by {
-    color: #94a3b8;
-}
-
-.reporter-input {
-    margin-left: 10px;
-    padding: 6px 12px;
-    font-size: 14px;
-    color: #fff;
-    background-color: #0f172a; /* สีพื้นหลัง */
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    width: 200px;
-}
-
-.history-details {
+.history-details-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr; /* ปรับเป็น Grid ซ้าย-ขวา */
+    grid-template-columns: 1fr 1fr;
     gap: 20px;
 }
 
-.detail-box {
+.info-box {
+    background: #0f172a;
     padding: 20px;
-    background-color: #0f172a; /* สีพื้นหลัง */
-    border-radius: 10px;
-    font-size: 14px;
-    color: #cbd5e1;
-    line-height: 1.6;
-    height: 150px; /* เพิ่มความสูง */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    border-radius: 12px;
+    min-height: 140px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-/* สีขอบเน้น */
-.reason-box {
-    border-left: 4px solid #ef4444; /* เน้นสีแดงด้านซ้าย */
+.info-box h4 {
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
 }
 
-.repair-box {
-    border-left: 4px solid #22c55e; /* เน้นสีเขียวด้านซ้าย */
-}
+/* สีเน้นย้ำ Reason และ Repair เหมือนต้นแบบ */
+.reason-accent { border-top: 4px solid #ef4444; }
+.reason-accent h4 { color: #ef4444; }
 
-/* หัวข้อเล็กๆ ใน Detail Box (ถ้ามีในอนาคต) */
-.detail-box h4 {
-    color: #fff;
-    margin: 0 0 10px 0;
-    font-size: 16px;
+.repair-accent { border-top: 4px solid #22c55e; }
+.repair-accent h4 { color: #22c55e; }
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }

@@ -1,83 +1,130 @@
-/* พื้นหลังของหน้า Tasks */
+/* Tasks.css */
+
 .tasks-wrapper {
-    background-color: #0b1120; /* สีน้ำเงินเข้มพรีเมียม */
+    background-color: #0f172a; /* ปรับให้เป็นน้ำเงินเข้มสีเดียวกับหน้าอื่น */
     min-height: 100vh;
-    padding: 40px 20px;
+    padding: 60px 20px;
     display: flex;
     justify-content: center;
 }
 
 .tasks-main-content {
     width: 100%;
-    max-width: 850px; /* จำกัดความกว้างให้ดูสวยงาม */
+    max-width: 1100px; /* ขยายให้กว้างเท่ากับหน้า History และ Dashboard */
+    animation: fadeIn 0.5s ease-in-out;
 }
 
+/* หัวข้อหน้า Tasks ตามสไตล์ต้นแบบ */
 .content-header {
-    text-align: center;
     margin-bottom: 40px;
-    color: #fff;
+    border-left: 5px solid #3b82f6; /* แถบสีฟ้าข้างหัวข้อเหมือนหน้าอื่น */
+    padding-left: 20px;
+    text-align: left; /* จัดชิดซ้ายให้เข้าชุดกัน */
 }
 
-/* 🧱 รายการงาน (จัดกลาง + เพิ่ม Gap) */
+.content-header h1 {
+    font-size: 2.5rem;
+    margin: 0;
+    color: #ffffff;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.content-header p {
+    color: #94a3b8;
+    margin-top: 8px;
+    font-size: 1.1rem;
+}
+
+/* 🧱 รายการงาน */
 .tasks-container {
     display: flex;
     flex-direction: column;
-    gap: 50px; /* ระยะห่างระหว่างงานแต่ละชุด */
+    gap: 30px; /* ระยะห่างที่พอดี */
 }
 
-.task-group {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* ตัวการ์ดขอบหนา */
+/* การ์ดงานสไตล์ Modern Glass */
 .modern-task-card {
-    background-color: #1e293b;
-    border: 3px solid #000; /* ขอบดำหนา */
-    border-radius: 12px;
-    padding: 25px;
+    background: #1e293b;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 30px;
     position: relative;
-    box-shadow: 8px 8px 0px #000; /* เงาแข็งแบบดั้งเดิม */
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     color: #fff;
+    transition: all 0.3s ease;
+    overflow: hidden; /* เพื่อให้ Glow Effect ไม่ล้น */
 }
+
+.modern-task-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(59, 130, 246, 0.5);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.modern-task-card.high-risk {
+    border-left: 6px solid #ef4444; /* สีแดง */
+    box-shadow: inset 10px 0 15px -10px rgba(239, 68, 68, 0.4), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+.modern-task-card.high-risk:hover {
+    border-color: rgba(239, 68, 68, 0.5);
+}
+
+/* 🟢 กรณี Low Risk - สีเขียว */
+.modern-task-card.low-risk {
+    border-left: 6px solid #22c55e; /* สีเขียว */
+    box-shadow: inset 10px 0 15px -10px rgba(34, 197, 94, 0.3), 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+.modern-task-card.low-risk:hover {
+    border-color: rgba(34, 197, 94, 0.5);
+}
+
+
+/* แถบสีด้านซ้ายตามระดับ Priority (แบบ Glow Effect) */
+.high-risk .priority-pill { color: #ef4444; border-color: rgba(239, 68, 68, 0.4); }
+.medium-risk .priority-pill { color: #f97316; border-color: rgba(249, 115, 22, 0.4); }
+.low-risk .priority-pill { color: #22c55e; border-color: rgba(34, 197, 94, 0.4); }
 
 .task-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 15px;
 }
 
 .task-header h3 {
-    font-size: 1.6rem;
-    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f8fafc;
 }
 
-/* แถบสีด้านซ้ายของการ์ดตามระดับ Priority */
-.priority-high { border-left: 10px solid #ef4444; }
-.priority-medium { border-left: 10px solid #f97316; }
-.priority-low { border-left: 10px solid #22c55e; }
-
 .priority-pill {
-    background-color: rgba(0, 0, 0, 0.3);
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: bold;
-    border: 1px solid #000;
+    background-color: rgba(15, 23, 42, 0.6);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .task-details {
     display: flex;
-    gap: 20px;
+    gap: 25px;
+    align-items: flex-start;
 }
 
+/* กล่องรูปภาพ No Image แบบต้นแบบ */
 .img-box {
-    width: 140px;
-    height: 100px;
-    background-color: #0f172a;
-    border: 2px solid #000;
+    width: 160px;
+    height: 120px;
+    background: #0f172a;
+    border-radius: 12px;
+    border: 2px dashed #334155;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,38 +133,63 @@
     flex-shrink: 0;
 }
 
+.reason-text {
+    flex-grow: 1;
+}
+
 .reason-text label {
     display: block;
-    font-size: 0.85rem;
-    color: #94a3b8;
+    font-size: 0.75rem;
+    color: #64748b;
     margin-bottom: 8px;
-    font-weight: bold;
-    letter-spacing: 1px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
 }
 
 .reason-text p {
     margin: 0;
-    font-size: 1rem;
-    line-height: 1.5;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    color: #cbd5e1;
 }
 
-/* ปุ่ม Accept Task */
+/* ปุ่ม Accept Task แบบ Modern Glow */
 .accept-task-btn {
-    background-color: #3b82f6; /* สีฟ้าสดใส */
+    display: inline-block;
+    background-color: #3b82f6;
     color: #fff;
     text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    border: 2px solid #000;
-    border-radius: 6px;
+    padding: 12px 25px;
+    font-weight: 700;
+    border: none;
+    border-radius: 8px;
     text-decoration: none;
-    box-shadow: 4px 4px 0px #000;
     transition: all 0.2s;
-    max-width: 200px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    margin-top: 15px;
+    cursor: pointer;
 }
 
 .accept-task-btn:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000;
-    background-color: #2563eb;
+
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.accept-task-btn {
+    background: #3b82f6;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    margin-left: auto;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }

@@ -1,162 +1,187 @@
-/* 1. พื้นหลังหน้า Dashboard แบบ Deep Dark */
+/* Dashboard.css */
+
 .dashboard-wrapper {
-    background-color: #0b1120; /* สีน้ำเงินเข้มลึก ดูพรีเมียม */
+    width: 100%;
     min-height: 100vh;
-    padding: 60px 20px;
+    background-color: #0f172a; /* พื้นหลังน้ำเงินเข้ม Deep Dark */
     display: flex;
-    flex-direction: column;
-    align-items: center; /* จัดเนื้อหาทั้งหมดไว้ตรงกลาง */
+    justify-content: center;
 }
 
-/* ส่วนหัวของหน้า */
-.content-header {
-    text-align: center;
-    margin-bottom: 50px;
+.dashboard-content {
     width: 100%;
-    max-width: 800px;
+    max-width: 1100px; /* ขยายกว้างเท่าหน้าประวัติ */
+    padding: 60px 40px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+/* หัวข้อหน้า Dashboard เลียนแบบต้นแบบ */
+.content-header {
+    margin-bottom: 40px;
+    border-left: 5px solid #3b82f6; /* แถบสีฟ้าข้างหัวข้อ */
+    padding-left: 20px;
+    text-align: left; /* เปลี่ยนจาก center เป็น left ให้เหมือนต้นแบบ */
 }
 
 .content-header h1 {
-    color: #ffffff;
     font-size: 2.5rem;
-    margin-bottom: 10px;
+    margin: 0;
+    color: #ffffff;
+    font-weight: 800;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 .content-header p {
     color: #94a3b8;
+    margin-top: 8px;
     font-size: 1.1rem;
 }
 
-/* 2. จัดการ Layout ของการ์ด และเพิ่ม Gap */
+/* Grid การจัดวางการ์ด */
 .machine-grid {
     display: flex;
     flex-direction: column;
-    gap: 50px; /* เพิ่มระยะห่างระหว่างการ์ด */
+    gap: 30px; /* ระยะห่างเท่ากับ history-list */
     width: 100%;
-    max-width: 800px; /* จำกัดความกว้างเพื่อให้การ์ดดูไม่แบนเกินไป */
 }
 
-/* 3. สไตล์การ์ด: ขอบหนา + จัดกลาง + เงาแข็ง */
+/* สไตล์การ์ดเลียนแบบต้นแบบ (history-item-card) */
 .machine-card {
-    background-color: #1e293b; /* สี Slate Dark */
-    border: 3px solid #000000; /* ขอบดำหนาตามต้นฉบับ */
-    border-radius: 12px;
-    padding: 30px;
+    background: #1e293b; 
+    border-radius: 16px;
     display: flex;
+    padding: 30px;
     gap: 30px;
-    color: #ffffff;
-    
-    /* เงาแบบแข็ง (Hard Shadow) */
-    box-shadow: 10px 10px 0px #000000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
     transition: all 0.3s ease;
+    align-items: center; /* จัดให้อยู่กลางแนวตั้ง */
 }
 
-/* เอฟเฟกต์ตอน Hover */
 .machine-card:hover {
-    transform: translate(-4px, -4px);
-    box-shadow: 15px 15px 0px #000000;
-    background-color: #243147;
+    transform: translateY(-5px);
+    border-color: #3b82f6;
+    box-shadow: 0 20px 40px rgba(59, 130, 246, 0.2);
 }
 
-/* กล่องรูปภาพ No Image */
+/* ส่วนรูปภาพใน Dashboard */
 .machine-img-placeholder {
-    width: 160px;
-    height: 120px;
-    background-color: #f8fafc; /* พื้นหลังสว่างตัดกับตัวการ์ด */
-    border: 2px solid #000000;
+    width: 180px;
+    height: 140px;
+    background: #0f172a; /* พื้นหลังเข้มเหมือนต้นแบบ */
+    border-radius: 12px;
+    border: 2px dashed #334155;
     flex-shrink: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0f172a;
-    font-weight: 900;
-    border-radius: 4px;
+    color: #475569;
+    font-weight: 700;
 }
 
-/* รายละเอียดข้อมูล */
+/* รายละเอียดข้อมูลภายใน */
 .machine-details {
     flex-grow: 1;
 }
 
 .machine-details h3 {
-    margin: 0 0 15px 0;
-    font-size: 1.8rem;
+    margin: 0 0 10px 0;
+    font-size: 2rem;
     color: #fff;
     font-weight: 800;
 }
 
-/* สถานะและจุด Dot */
+/* สถานะไฟ LED */
 .status-badge {
     margin-bottom: 15px;
-    font-weight: bold;
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 1.1rem;
+    gap: 12px;
+    color: #94a3b8;
+    font-weight: 600;
 }
 
 .status-dot {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid #000;
 }
 
 .status-dot.operating {
-    background-color: #10b981; /* เขียวสด */
-    box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+    background-color: #34d399; /* เขียวสว่าง */
+    box-shadow: 0 0 12px rgba(52, 211, 153, 0.6);
 }
 
 .status-dot.standby {
-    background-color: #f59e0b; /* ส้มทอง */
+    background-color: #f59e0b; /* ส้ม */
+    box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
 }
 
 /* กลุ่มตัวเลขสถิติ */
+.stat-group {
+    display: flex;
+    gap: 25px;
+    margin-bottom: 20px;
+}
+
 .stat-group p {
-    margin: 8px 0;
-    font-size: 1.1rem;
+    margin: 0;
+    font-size: 1rem;
     color: #cbd5e1;
-    font-weight: 600;
 }
 
 .stat-group strong {
-    color: #3b82f6; /* สีฟ้าเน้นตัวเลข */
-    font-size: 1.2rem;
+    color: #3b82f6; /* สีฟ้าเน้นตัวเลขเหมือนต้นแบบ */
+    font-size: 1.1rem;
+    font-weight: 700;
 }
 
 /* แถวประวัติและปุ่ม View */
 .history-row {
-    margin-top: 25px;
-    padding-top: 20px;
-    border-top: 2px solid #000000;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* เส้นขอบบางๆ */
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
 .history-row span {
-    font-weight: bold;
-    color: #94a3b8;
+    font-size: 0.9rem;
+    color: #64748b;
 }
 
-/* ปุ่ม View แบบขอบหนา */
-.view-btn {
+/* ปุ่ม View ปรับให้ทันสมัยขึ้น (ลบขอบดำแข็งออก) */
+.analyze-btn {
     background-color: #3b82f6;
     color: white;
     text-decoration: none;
-    padding: 8px 25px;
-    border-radius: 6px;
-    border: 2px solid #000;
-    font-weight: 900;
-    text-transform: lowercase; /* ตามแบบ 'view' เดิมของคุณ */
-    box-shadow: 4px 4px 0px #000;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
     transition: all 0.2s;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+    border: none;
+    display: flex;
+    margin-left: auto;
 }
 
-.view-btn:hover {
+.analyze-btn:hover {
     background-color: #2563eb;
-    transform: translate(-2px, -2px);
-    box-shadow: 6px 6px 0px #000;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+}
+
+.analysis_ai{
+    width: 100%;
+    max-width: 1100px; /* ขยายให้กว้างขึ้นเพื่อรองรับข้อมูลตาราง */
+    padding: 60px 40px;
+    animation: fadeIn 0.5s ease-in-out;
+}
+/* Animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
 }

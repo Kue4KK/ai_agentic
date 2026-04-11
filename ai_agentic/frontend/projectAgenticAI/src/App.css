@@ -22,3 +22,7 @@
     background-color: #0f172a; /* หรือสีพื้นหลังที่ต้องการ */
     padding: 40px;
 }
+
+body{
+    margin: 0px;
+}
