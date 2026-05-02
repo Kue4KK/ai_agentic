@@ -1,4 +1,7 @@
 /* Analyze_machine.css */
+body {
+  font-family: sans-serif;
+}
 
 .analyze-wrapper {
     background-color: #0f172a;
@@ -92,6 +95,7 @@
     cursor: pointer;
     transition: 0.3s;
     box-shadow: 0 10px 20px rgba(59, 130, 246, 0.2);
+    justify-content: center;
 }
 
 .analyze-btn:hover { background: #2563eb; transform: translateY(-2px); }
@@ -144,9 +148,10 @@
 
 .risk-badge { display: inline-block; padding: 4px 12px; border-radius: 6px; font-weight: 800; font-size: 0.8rem; }
 .risk-badge[data-risk="high"] { background: #ef4444; }
+.risk-badge[data-risk="medium"] { background: #f9c816f5; }
 .risk-badge[data-risk="low"] { background: #22c55e; }
 
-.reason-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin-top: 15px; }
+.reason-text { font-size: 0.95rem; color: #cbd5e1; line-height: 1.6; margin-top: 15px; margin-left: 10px; }
 
 /* Export */
 .logic-row {
@@ -156,6 +161,29 @@
     background: #1e293b;
     padding: 20px;
     border-radius: 16px;
+}
+
+.logic-box {
+    background: #0f172a;
+    padding: 15px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 20%;
+    text-align: center;
+}
+
+.logic-box h4 {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 10px;
+    margin-top: 0%;
+}
+
+.logic-box p {
+    font-size: 2.1rem;
+    color: #3b82f6;
+    font-weight: 600;
+    margin: 0;
 }
 
 .download-btn {
@@ -204,6 +232,13 @@
     margin-bottom: 35px;
     border-left: 5px solid #3b82f6;
     padding-left: 20px;
+}
+/*#cbd5e1*/
+.conf-text {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    margin-top: 5px;
+    font-weight: 600;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }

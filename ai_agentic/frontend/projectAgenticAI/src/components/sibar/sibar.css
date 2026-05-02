@@ -62,3 +62,26 @@
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
 }
+
+.icon {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.icon img {
+    width: 80px;
+    height: 80px;
+    display: block;
+}
+
+.x{
+    font-size: 24px;
+    font-weight: bold;
+    color: #3b82f6;
+}
+
+.i{
+    color: #ff1313;
+}

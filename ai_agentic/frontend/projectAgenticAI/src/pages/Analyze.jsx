@@ -69,8 +69,8 @@ export default function Analyze() {
           <form onSubmit={handleSubmit} className="manual-form">
             <div className="form-grid">
               {[
-                { label: "Air Temperature (K)", name: "air_temperature" },
-                { label: "Process Temperature (K)", name: "process_temperature" },
+                { label: "Air Temperature (°K)", name: "air_temperature" },
+                { label: "Process Temperature (°K)", name: "process_temperature" },
                 { label: "Rotational Speed (RPM)", name: "rotational_speed" },
                 { label: "Torque (Nm)", name: "torque" },
                 { label: "Tool Wear (min)", name: "tool_wear" }

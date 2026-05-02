@@ -86,10 +86,11 @@
 }
 
 .machine-details h3 {
-    margin: 0 0 10px 0;
+    margin: 0 0 40px 0;
     font-size: 2rem;
     color: #fff;
     font-weight: 800;
+    font-size: 1.5rem;
 }
 
 /* สถานะไฟ LED */
@@ -133,14 +134,12 @@
 
 .stat-group strong {
     color: #3b82f6; /* สีฟ้าเน้นตัวเลขเหมือนต้นแบบ */
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
 }
 
 /* แถวประวัติและปุ่ม View */
 .history-row {
-    margin-top: 15px;
-    padding-top: 15px;
     border-top: 1px solid rgba(255, 255, 255, 0.05); /* เส้นขอบบางๆ */
     display: flex;
     justify-content: space-between;

@@ -42,7 +42,7 @@ function MaintenanceHistory() {
 
   return (
     <div className="history-wrapper">
-      {/* ❌ เอา <Sibar /> ออก เพราะมีอยู่ที่ App.jsx แล้ว */}
+
       
       <main className="history-content">
         <header className="history-header-section">
@@ -52,7 +52,7 @@ function MaintenanceHistory() {
 
         <div className="filter-bar">
 
-          {/* 🔍 search */}
+
           <input
             type="text"
             placeholder="Search..."
@@ -60,10 +60,11 @@ function MaintenanceHistory() {
             onChange={(e) => setSearch(e.target.value)}
           />
 
-          {/* 🏭 machine dropdown */}
+
           <select
             value={selectedMachine}
             onChange={(e) => setSelectedMachine(e.target.value)}
+            className='select'
           >
             <option value="">All Machines</option>
             {machineOptions.map((m, index) => (
@@ -71,17 +72,18 @@ function MaintenanceHistory() {
             ))}
           </select>
 
-          {/* 📅 date range */}
           <input
             type="date"
             value={startDate}
             onChange={(e) => setStartDate(e.target.value)}
+            className='date-search'
           />
-
+          <p>-</p>
           <input
             type="date"
             value={endDate}
             onChange={(e) => setEndDate(e.target.value)}
+            className='date-search'
           />
 
           <button

@@ -32,6 +32,12 @@
     font-weight: 800;
 }
 
+.data-header-section p {
+    color: #94a3b8;
+    margin-top: 8px;
+    font-size: 1.1rem;
+}
+
 .top-selection-bar {
     width: 100%;
     margin-top: 20px;
@@ -86,7 +92,7 @@
     align-items: center;
     justify-content: center;
     color: white;
-    font-weight: 700;
+    font-weight: 1.5rem;
     margin-bottom: 15px;
     box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
 }

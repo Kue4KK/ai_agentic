@@ -8,7 +8,7 @@ function Login() {
   const handleLogin = (e) => {
     e.preventDefault();
     // จำลองการ Login แล้วไปที่หน้า Dashboard
-    navigate('/dashboard');
+    navigate('/machine-data');
   };
 
   return (

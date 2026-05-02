@@ -24,17 +24,17 @@ function MaintenanceTasks() {
       <main className="tasks-main-content">
         <header className="history-header-section">
           <h1>Maintanance Tasks</h1>
-          <p>Showing past repair records for selected systems</p>
+          <p>Monitor and manage ongoing and scheduled maintenance tasks</p>
         </header>
 
         <div className="tasks-container">
           {tasks.length === 0 ? (
-            <p>No active maintenance tasks at the moment.</p>
+            <p className="Ndata">No active maintenance tasks at the moment.</p>
           ) : (
           
           tasks.map(task => (
             <div key={task.machine_id} className="task-group">
-              <div className={`modern-task-card ${task.risk_level === 'high' ? 'high-risk'  : 'low-risk'}`}>
+              <div className={`modern-task-card ${task.risk_level === 'high' ? 'high-risk'  : task.risk_level === 'low' ? 'low-risk' : 'medium-risk'}`}>
                 <div className="task-header">
                   <h3>{task.machine_name}</h3>
                   <span className="priority-pill">{task.risk_level}</span>
@@ -44,21 +44,29 @@ function MaintenanceTasks() {
                   <div className="img-box">No Image</div>
                   <div className="reason-text">
                     <label>MAINTENANCE REASON</label>
-                    <p><strong>🤖 AI1:</strong> {task.ai1_reason}</p>
-                    <p><strong>🤖 AI2:</strong> {task.ai2_reason}</p>
+                    <strong>🤖 AI 1:</strong>
+                    <p> {task.ai1_reason}</p>
+                    <strong>🤖 AI 2:</strong> 
+                    <p>{task.ai2_reason}</p>
                   </div>
-                  <p><strong>🧠 Source:</strong> {task.decision_source}</p>
+                  <div className="reason-text">
+                    <label>DECISION SOURCE</label>
+                    <p>{task.decision_source}</p>
+                  </div>
+                  <div className="reason-text">
+                    <label>DATE TIME</label>
+                    <p style={{ fontSize: "15px", color: "gray" }}>
+                      {task.created_at}
+                    </p>
+                  </div>
 
-                  <p style={{ fontSize: "12px", color: "gray" }}>
-                    🕒 {task.created_at}
-                  </p>
+                  
                 </div>
                 <button className="accept-task-btn" onClick={() => navigate(`/maintenance-tasks-form/${task.machine_id}`)}>
                       Accept
                 </button>
               </div>
 
-              {/* ปุ่ม Accept Task ปรับให้เด่นชัดขึ้น */}
             </div>
           )
           ))}

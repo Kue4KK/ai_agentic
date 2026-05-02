@@ -16,7 +16,7 @@ function MachineData() {
         
         {/* --- Header ตามสไตล์ต้นฉบับ --- */}
         <header className="data-header-section">
-          <h1>Machine Analytics</h1>
+          <h1>Overview</h1>
           <p>Real-time sensor data and latest maintenance records</p>
         </header>
 
@@ -33,11 +33,11 @@ function MachineData() {
               <div className="machine-status-card">
                 <div className="status-item">
                   <span>Air Temp:</span> 
-                  <strong>{item.air_temperature || "0"} K</strong>
+                  <strong>{item.air_temperature || "0"} °K</strong>
                 </div>
                 <div className="status-item">
                   <span>Process Temp:</span> 
-                  <strong>{item.process_temperature || "0"} K</strong>
+                  <strong>{item.process_temperature || "0"} °K</strong>
                 </div>
                 <div className="status-item">
                   <span>Speed:</span> 

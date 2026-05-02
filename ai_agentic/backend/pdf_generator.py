@@ -1,15 +1,17 @@
+from fileinput import filename
 import os
 import datetime
 import requests
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
+from models import SensorData
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 
 def generate_report_text(data):
-    # 1. เช็ค Logic เดียวกับที่ใช้ตัดสินใจใน PDF
+    # 1. เช็ค Logic เดียวกับที่ใช้ตัดสินใจใน PDF 
     ai1_repair = data.get("ai1", {}).get("should_repair", False)
     ai2_repair = data.get("ai2", {}).get("final_decision", False)
     rule_trig = data.get("rule", False)
@@ -77,7 +79,10 @@ def generate_report_text(data):
 def create_pdf(data_input):
     # --- 1. เตรียมข้อมูลพื้นฐาน (เหมือนเดิม) ---
     os.makedirs("reports", exist_ok=True)
-    filename = f"report_{int(datetime.datetime.now().timestamp())}.pdf"
+    machine_name = data_input.get("machine_name", "Unknown").replace(" ", "_")
+    timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+
+    filename = f"{machine_name}_{timestamp}.pdf"
     filepath = os.path.join("reports", filename)
     doc = SimpleDocTemplate(filepath, pagesize=A4)
     styles = getSampleStyleSheet()
@@ -108,7 +113,9 @@ def create_pdf(data_input):
     clean_text = raw_ai_text.replace("**", "").replace("###", "")
 
     # Header
-    content.append(Paragraph("AI-DRIVEN MAINTENANCE REPORT", title_style))
+    content.append(Paragraph("Intelligent AI Maintenance Analysis Report", title_style))
+    machine_name = data_input.get("machine_name", "Unknown")
+    content.append(Paragraph(f"<b>Machine:</b> {machine_name}", normal_style))
     content.append(Paragraph(f"<b>Date:</b> {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}", normal_style))
     content.append(Spacer(1, 20))
 
@@ -117,11 +124,11 @@ def create_pdf(data_input):
     s = data_input.get("sensor", {})
     sensor_table_data = [
         ["Parameter", "Measured Value"],
-        ["Air Temperature", f"{s.get('air_temperature')} °F"],
-        ["Process Temperature", f"{s.get('process_temperature')} °F"],
+        ["Air Temperature", f"{s.get('air_temperature')} °K"],
+        ["Process Temperature", f"{s.get('process_temperature')} °K"],
         ["Rotational Speed", f"{s.get('rotational_speed')} RPM"],
-        ["Torque", f"{s.get('torque')} Units"],
-        ["Tool Wear", f"{s.get('tool_wear')} %"]
+        ["Torque", f"{s.get('torque')} Nm"],
+        ["Tool Wear", f"{s.get('tool_wear')} min"]
     ]
     table = Table(sensor_table_data, colWidths=[180, 150])
     table.setStyle(TableStyle([
@@ -146,21 +153,35 @@ def create_pdf(data_input):
     content.append(Paragraph("3. Engineering Analysis & Recommendations", section_style))
     lines = clean_text.split("\n")
     headers_to_bold = ["Summary:", "Analysis:", "Validation:", "Recommendation:"]
+
     for line in lines:
         line = line.strip()
-        if not line: continue
+        if not line:
+            continue
+
         current_header = next((h for h in headers_to_bold if line.startswith(h)), None)
+
         if current_header:
             header_part = current_header
             body_part = line[len(current_header):].strip()
+
+            # ✅ ต้องอยู่ใน if นี้เท่านั้น
+            if body_part:
+                body_part = body_part.lower().capitalize()
+
             content.append(Spacer(1, 8))
-            content.append(Paragraph(f"<b>{header_part}</b>", header_style)) 
-            if body_part: content.append(Paragraph(body_part, normal_style))
+            content.append(Paragraph(f"<b>{header_part}</b>", header_style))
+
+            if body_part:
+                content.append(Paragraph(body_part, normal_style))
+
         else:
+            # ✅ เคสไม่มี header ใช้ line แทน
+            line = line.lower().capitalize()
             content.append(Paragraph(line, normal_style))
 
     # Section 4: Final Conclusion (ส่วนที่คุณต้องการแก้ไข)
-    content.append(Spacer(1, 20))
+    content.append(PageBreak())
     content.append(Paragraph("4. Conclusion", section_style))
     source = data_input.get("decision_source", "N/A").upper()
     
@@ -173,6 +194,15 @@ def create_pdf(data_input):
     if all_errors:
         err_text = ", ".join(all_errors)
         content.append(Paragraph(f"<font color='red'><b>Hallucination Detected:</b> {err_text}</font>", normal_style))
+
+    content.append(Spacer(1, 10))
+    content.append(Paragraph("5. Trust Evaluation", section_style))
+
+    trust_score = data_input.get("trust_score", 0)
+    trust_level = data_input.get("trust_level", "UNKNOWN")
+
+    content.append(Paragraph(f"<b>Trust Score:</b> {trust_score} %", normal_style))
+    content.append(Paragraph(f"<b>Trust Level:</b> {trust_level}", normal_style))
 
     # บันทึกไฟล์
     try:

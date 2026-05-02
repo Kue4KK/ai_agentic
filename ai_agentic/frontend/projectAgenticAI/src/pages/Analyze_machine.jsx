@@ -71,7 +71,7 @@ export default function AnalyzeMachine() {
         
         <header className="analyze-header">
           <h1>Industrial AI Intelligence</h1>
-          <p>Machine Name: <span className="highlight">{name}</span> Analysis Portal</p>
+          <p>: Analysis for Machine</p>
         </header>
 
         {/* 📊 SENSOR DATA CARD */}
@@ -92,7 +92,7 @@ export default function AnalyzeMachine() {
         {/* 🔍 ACTION BUTTON */}
         {!loading && !result && (
           <button className="analyze-btn" onClick={handleAnalyze}>
-             Run System Diagnosis
+             Run System Analysis
           </button>
         )}
 
@@ -120,24 +120,26 @@ export default function AnalyzeMachine() {
               <div className="agent-card">
                 <h4>🤖 Agent 1 Analysis</h4>
                 <p className="risk-badge" data-risk={result.ai1?.risk_level}>{result.ai1?.risk_level} Risk</p>
+                <p className="conf-text">reason:</p>
                 <p className="reason-text">{result.ai1?.reason}</p>
               </div>
 
               <div className="agent-card">
                 <h4>🛡️ Agent 2 Verification</h4>
-                <p className="conf-text">Confidence: <strong>{result.ai2?.confidence}%</strong></p>
+                <p className="reason-text">The reliability of Agent1: <strong>{result.ai2?.confidence}%</strong></p>
+                <p className="conf-text">reason:</p>
                 <p className="reason-text">{result.ai2?.reason}</p>
               </div>
             </div>
 
             <div className="logic-row">
                 <div className="logic-box">
-                    <h4>🧠 Rule-Based Logic</h4>
-                    <p>{result.rule_triggered ? result.rule_reasons.join(" • ") : "All Safety Rules Passed"}</p>
+                    <h4>Confidence</h4>
+                    <p>{result.trust_score}%</p>
                 </div>
                 {result.pdf_url && (
                     <button className="download-btn" onClick={() => window.open(result.pdf_url)}>
-                        📄 Export Technical Report
+                        📄 Export Report
                     </button>
                 )}
             </div>

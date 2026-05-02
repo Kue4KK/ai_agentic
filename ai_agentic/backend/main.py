@@ -15,6 +15,75 @@ from pdf_generator import create_pdf
 
 app = FastAPI()
 
+
+def calculate_trust_score(ai1, ai2, rule, ai1_errors, ai2_errors):
+
+    score = 0
+
+    # -----------------------------
+    # 1. RULE (Ground Truth)
+    # -----------------------------
+    if rule:
+        score += 25
+    else:
+        score += 20
+
+    # -----------------------------
+    # 2. CONSISTENCY (สำคัญสุด)
+    # -----------------------------
+    if ai1.get("should_repair") == ai2.get("final_decision"):
+        score += 30
+    else:
+        score -= 40   # 🔥 เพิ่ม penalty
+
+    # -----------------------------
+    # 3. FORCE CORRECT AGREE (🔥 ห้ามใช้ LLM ตรงๆ)
+    # -----------------------------
+    real_agree = (ai1.get("should_repair") == ai2.get("final_decision"))
+
+    if real_agree:
+        score += 10
+    else:
+        score -= 10
+
+    # -----------------------------
+    # 4. HALLUCINATION (หนักมาก)
+    # -----------------------------
+    error_count = len(ai1_errors) + len(ai2_errors)
+
+    if error_count == 0:
+        score += 15
+    elif error_count == 1:
+        score -= 15
+    else:
+        score -= 30
+
+    # -----------------------------
+    # 5. CONFIDENCE (ลดอิทธิพล LLM)
+    # -----------------------------
+    confidence = ai2.get("confidence", 50)
+
+    if confidence >= 80:
+        score += 5
+    elif confidence >= 60:
+        score += 3
+    else:
+        score -= 5
+
+    return max(0, min(100, int(score)))
+
+def interpret_trust(score):
+    if score >= 85:
+        return "VERY HIGH TRUST"
+    elif score >= 70:
+        return "HIGH TRUST"
+    elif score >= 55:
+        return "MODERATE TRUST"
+    elif score >= 35:
+        return "LOW TRUST"
+    else:
+        return "UNRELIABLE"
+
 # -----------------------------
 #  CORS
 # -----------------------------
@@ -110,38 +179,58 @@ def root():
 #  ANALYZE 
 # -----------------------------
 @app.post("/api/analyze")
-def run(sensor: Sensor):
+def run(sensor: Sensor, db: Session = Depends(get_db)):
+
 
     s = sensor.dict()
 
-    # 🤖 AI1
+    # AI1
     ai1 = analyze(s) or {}
 
-    # 🧠 AI2
+    # AI2
     ai2 = validate(s, ai1) or {}
 
-    # 🔥 RULE ENGINE
+    # RULE ENGINE
     rule, rule_reasons = rule_based(s)
 
     ai2_decision = ai2.get("final_decision", ai1.get("should_repair", False))
 
-    # 🚨 Hallucination check
+    # Hallucination check
     ai1_errors = detect_hallucination(s, ai1.get("reason", ""))
     ai2_errors = detect_hallucination(s, ai2.get("reason", ""))
 
-    # 🏆 FINAL DECISION
-    if (ai1.get("should_repair") and ai2_decision) or rule:
+    # FINAL DECISION
+    if ai1["should_repair"] == ai2["final_decision"]:
+        decision = ai1["should_repair"]
+        decision_source = "Agent 1 & Agent 2 Consensus"
+
+    elif rule:
         decision = True
-        decision_source = (
-            "Rule-Based System Triggered" if rule
-            else "Agent 1 & Agent 2 Consensus"
-        )
+        decision_source = "Rule-Based System Triggered"
+
     else:
         decision = False
         decision_source = "System Analysis is Normal"
 
-    # 📄 PDF
+    print("AI1:", ai1.get("should_repair"))
+    print("AI2:", ai2_decision)
+    print("RULE:", rule)
+
+    
+
+    machine = db.query(Machine).filter(
+        Machine.id == s.get("machine_id")
+    ).first()
+
+    machine_name = machine.name if machine else "Unknown Machine"
+
+    trust_score = calculate_trust_score(ai1, ai2, rule, ai1_errors, ai2_errors)
+    trust_level = interpret_trust(trust_score)
+
+
+    # PDF
     pdf = create_pdf({
+        "machine_name": machine_name,
         "sensor": s,
         "ai1": ai1,
         "ai2": ai2,
@@ -150,7 +239,9 @@ def run(sensor: Sensor):
         "decision": decision,
         "decision_source": decision_source,
         "ai1_errors": ai1_errors,
-        "ai2_errors": ai2_errors
+        "ai2_errors": ai2_errors,
+        "trust_score": trust_score,
+        "trust_level": trust_level
     })
 
     # -----------------------------
@@ -178,6 +269,8 @@ def run(sensor: Sensor):
     #  RESPONSE
     # -----------------------------
     return {
+        "trust_score": trust_score,
+        "trust_level": trust_level,
         "ai1": ai1,
         "ai2": ai2,
         "rule_triggered": rule,

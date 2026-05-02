@@ -20,7 +20,7 @@ function Dashboard() {
       <div className="analysis_ai">
         <header className="history-header-section">
           <h1>Analysis Machines</h1>
-          <p>Showing past repair records for selected systems</p>
+          <p>Multi-agent AI system for intelligent maintenance decision-making</p>
         </header>
 
         <div className="machine-grid">
